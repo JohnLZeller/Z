@@ -2,7 +2,7 @@
  * Filename: style.css
  * Author: John Zeller
  * Date Created: December 5, 2012
- * Recently Updated: December 5, 2012
+ * Recently Updated: December 6, 2012
  * ------
  * Notes: * Make it so that the left side of the content will never fall past the left side of the screen
  * =============================================================*/
@@ -76,6 +76,7 @@ p{
     
     #content-right
     {
+        text-align: left;
         padding-top: 20px;
         padding-left: 20px;
         padding-right: 20px;
