@@ -13,23 +13,15 @@
 <?php
     include 'core/init.php';
     include 'includes/header.php';
+    include 'includes/run_registration.php';
 ?>
 
 <div id="content-left">
-    <form id="login_form" action="login.php" method="post">
-        Username<br>
-        <input type="text" name="username"><br><br>
-        Password<br>
-        <input type="text" name="password"><br><br><br>
-        <input name="login_submit" type="submit" value="Log In">
-    </form>
-    <br>Are you a new user?<br>
-    <a href="register.php">Register Here!</a>
+    <span id="user_info"></span>
 </div>
 
 <div id="content-right">
-    
-    
+    <span id="site_info"></span>
 </div>
 
 <?php include 'includes/footer.php'; ?>
