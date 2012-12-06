@@ -1,0 +1,99 @@
+/* ===============================================================
+ * Filename: style.css
+ * Author: John Zeller
+ * Date Created: December 5, 2012
+ * Recently Updated: December 5, 2012
+ * ------
+ * Notes: * Make it so that the left side of the content will never fall past the left side of the screen
+ * =============================================================*/
+
+
+/* ==================== TYPOGRAPHY ==================== */
+body{
+    background-color:#116348; /* Dark Green */
+}
+
+h1{
+    color:black;
+    text-align:center;
+}
+
+p{
+    font-family:"Helvetica";
+    font-size:20px;
+}
+
+/* ====================== LAYOUT ====================== */
+#main
+{
+    margin-top: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 30px;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+#content-container  /* This div is set to be perfectly centered on the page */
+{
+    height: auto;
+    width: 1200px;
+    margin-left: -600px;    /* Set to half of width */
+    position: absolute;
+    left: 50%;
+}
+
+    #title
+    {
+        text-align: center;
+        height: 35px;
+        width: 100%;
+    }
+    
+    #nav
+    {
+        padding-top: 20px;
+        height: 35px;
+        width: auto;
+    }
+    
+    #content-left
+    {
+        text-align: left;
+        padding-top: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 20px;
+        /*background-color: #FFFFFF;*/
+        margin-left: auto;
+        height: 100%;
+        width: 250px;
+        float: left;
+        border-right: dashed black;
+    }
+    
+    #content-right
+    {
+        padding-top: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 20px;
+        /*background-color: #FFFFFF;*/
+        margin-right: auto;
+        height: 100%;
+        width: 850px;
+        float: right;
+        /*border-style:solid;
+        border-width:5px;*/
+    }
+    
+    #footer
+    {
+        height: 35px;
+        width: 100%;
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+    }
