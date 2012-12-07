@@ -1,6 +1,6 @@
 <?php
 // ===============================================================
-// * Filename: run_registration.php
+// * Filename: run_registration_login.php
 // * Author: John Zeller
 // * Date Created: December 5, 2012
 // * Recently Updated: December 6, 2012
@@ -34,10 +34,10 @@
         /* Check that inputs are good */
         if( verify_reg() != 1 ){ // Checks to see if form was filled out correctly. Doesn't accept if not.
             $mysqli = connect();
-            if( !($stmt = $mysqli->prepare("SELECT * FROM Person WHERE username=?") ) ) {
+            if( !($stmt = $mysqli->prepare("SELECT * FROM Person WHERE username=? AND password=?") ) ) {
                 $to_site_info .= "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error . "<br>";
             }
-            if (!$stmt->bind_param("s", $_POST['username'])) { // Adds variable to search with
+            if (!$stmt->bind_param("ss", $_POST['username'], $_POST['password'])) { // Adds variable to search with
 		$to_site_info .= "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error . "<br>";
             }
             if (!$stmt->execute()) {
@@ -62,6 +62,7 @@
                     $to_site_info .= "Current Location: "   . $cur_city . ", " . $cur_state . "<br>";
                     $to_site_info .= "About Me: "           . $about . "<br>";
                 }
+                echo (string)mysqli_num_rows($stmt);
             }
         }else{
             $to_site_info .= "Form Information is incorrect!<br>";
@@ -69,5 +70,42 @@
     }
     
     function verify_reg(){
+        $to_print_string = "";
+        // Check Username
+        if($_POST['username'] != ''){
+                // Check that Username is NOT longer than 30 characters
+            if (strlen($_POST['username'])>30){
+                $to_print_string .= "ERROR - Username must <b>not</b> be longer than 30 characters.<br>You entered " . strlen($_POST['username']) .
+                                        " characters.<br>";
+                return $to_print_string; // ERROR RETURN
+            }
+                // Check that Username has ONLY numbers and letters - ASCII 48-57 NUMBERS, 65-90 UPPERCASE, 97-122 LOWERCASE
+            for($i=0; $i<strlen($_POST['username']); $i++){
+                $temp = 0;
+                for($a=48; $a<=57; $a++){ 		// Checking all NUMBERS
+                    if(ord(substr($_POST['username'], $i, 1)) != $a){
+                        $temp++;
+                    }
+                }
+                    for($a=65; $a<=90; $a++){ 		// Checking all UPPERCASE
+                        if(ord(substr($_POST['username'], $i, 1)) != $a){
+                            $temp++;
+                        }
+                    }
+                    for($a=97; $a<=122; $a++){		// Checking all LOWERCASE
+                        if(ord(substr($_POST['username'], $i, 1)) != $a){
+                            $temp++;
+                        }
+                    }
+                if($temp==62){				// Verifying temp is 62 - If not, then character was not within valid parameters
+                    $to_print_string .= "ERROR - Username <b>must</b> contain only numbers and letters.<br>Character number " . ($i + 1) .
+                                            " is '" . substr($_POST['username'], $i, 1) . "', which is NOT a number or a letter.<br>";
+                    return $to_print_string; // ERROR RETURN
+                }
+            }
+        }else{
+            $to_print_string .= "ERROR - Username is REQUIRED!";
+            return $to_print_string; // ERROR RETUR
+        }
         return 0; // SUCCESS - Valid Info
     }

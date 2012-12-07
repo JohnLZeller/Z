@@ -18,7 +18,7 @@
         
         <script src="js/script.js" type="text/javascript"></script>
     </head>
-    <body onload="user_info_change('login');">
+    <body onload="start();">
         
         <div id="main">
             

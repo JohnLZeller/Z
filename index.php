@@ -11,6 +11,7 @@
  * =============================================================-->
 
 <?php
+    ob_start();             // Avoids resending data on refresh
     include 'core/init.php';
     include 'includes/header.php';
     include 'includes/run_registration_login.php';

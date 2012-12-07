@@ -6,7 +6,7 @@
 // * Recently Updated: December 6, 2012
 // * ------
 // * Notes:
-// * 
+// *        ob_end_flush() does nothing?
 // * =============================================================
 ?>
                 <div id="footer">Footer Here</div>
@@ -15,3 +15,5 @@
         
     </body>
 </html>
+
+<?php ob_end_flush(); ?>    <!-- Flushs system for new refresh -->
