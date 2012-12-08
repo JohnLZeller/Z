@@ -3,7 +3,7 @@
 // * Filename: footer.php
 // * Author: John Zeller
 // * Date Created: December 5, 2012
-// * Recently Updated: December 6, 2012
+// * Recently Updated: December 7, 2012
 // * ------
 // * Notes:
 // *        ob_end_flush() does nothing?

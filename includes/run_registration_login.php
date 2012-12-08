@@ -3,17 +3,17 @@
 // * Filename: run_registration_login.php
 // * Author: John Zeller
 // * Date Created: December 5, 2012
-// * Recently Updated: December 6, 2012
+// * Recently Updated: December 7, 2012
 // * ------
 // * Notes:
 // *    Currently, POST resends form data if you hit refresh after a successful form submission
 //          Using header() is not working like it should be
 // * =============================================================
-
+    
     if(isset($_POST['register_submit'])){
         $to_site_info = "";
         /* Check that inputs are good */
-        if( verify_reg() != 1 ){ // Checks to see if form was filled out correctly. Doesn't accept if not.
+        if( verify_reg() == "SUCCESS" ){ // Checks to see if form was filled out correctly. Doesn't accept if not.
             $mysqli = connect();
             if( !($stmt = $mysqli->prepare("INSERT INTO Person(username, password, fname, lname, dob, gender, email)" .
                                            "VALUES ('" . $_POST['username'] . "', '" . $_POST['password'] . "', '" . $_POST['fname'] . "', '" .
@@ -27,12 +27,12 @@
                 $to_site_info .= "Registration successful!<br>";
             }
         }else{
-            $to_site_info .= "Form Information is incorrect!<br>";
+            $to_site_info .= verify_reg();
         }
     }else if(isset($_POST['login_submit'])){
         $to_site_info = "";
         /* Check that inputs are good */
-        if( verify_reg() != 1 ){ // Checks to see if form was filled out correctly. Doesn't accept if not.
+        if( verify_reg() == "SUCCESS" ){ // Checks to see if form was filled out correctly. Doesn't accept if not.
             $mysqli = connect();
             if( !($stmt = $mysqli->prepare("SELECT * FROM Person WHERE username=? AND password=?") ) ) {
                 $to_site_info .= "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error . "<br>";
@@ -62,10 +62,10 @@
                     $to_site_info .= "Current Location: "   . $cur_city . ", " . $cur_state . "<br>";
                     $to_site_info .= "About Me: "           . $about . "<br>";
                 }
-                echo (string)mysqli_num_rows($stmt);
+                echo (string)mysqli_num_rows($stmt);    // TEST - Checking Length of string
             }
         }else{
-            $to_site_info .= "Form Information is incorrect!<br>";
+            $to_site_info .= verify_reg();
         }
     }
     
@@ -105,7 +105,30 @@
             }
         }else{
             $to_print_string .= "ERROR - Username is REQUIRED!";
-            return $to_print_string; // ERROR RETUR
+            return $to_print_string; // ERROR RETURN
         }
-        return 0; // SUCCESS - Valid Info
+        // Check Username
+        if($_POST['password'] != ''){
+                // Check that Password is BETWEEN 6 and 30 characters
+            if ((strlen($_POST['password'])<6) || (strlen($_POST['password'])>30)){
+                $to_print_string .= "ERROR - Password must be <b>between</b> 6 and 30 characters.<br>You entered " . strlen($_POST['password']) .
+                                        " characters.<br>";
+                return $to_print_string; // ERROR RETURN
+            }
+                // Check that Password has NO spaces - ASCII 32 SPACE
+            for($i=0; $i<strlen($_POST['password']); $i++){
+                $temp = 0;
+                if(ord(substr($_POST['password'], $i, 1)) == 32){	// Checking for SPACES
+		    $temp++;
+		}
+                if($temp==1){				// Verifying temp is 1 - If not, then character was not within valid parameters
+                    $to_print_string .= "ERROR - Password <b>must</b> contain only numbers, letters and symbols.<br>You entered a space, which is not allowed.<br>";
+                    return $to_print_string; // ERROR RETURN
+                }
+            }
+        }else{
+            $to_print_string .= "ERROR - Password is REQUIRED!";
+            return $to_print_string; // ERROR RETURN
+        }
+        return "SUCCESS"; // SUCCESS - Valid Info
     }
